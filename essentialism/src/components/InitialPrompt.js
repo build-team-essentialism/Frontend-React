@@ -61,7 +61,8 @@ function IntialPrompt(props) {
     function validate(event) {
         event.preventDefault();
         if(container.length < 7 || container.length > 7) {
-            console.log("To continue, you must pick 7 interests");
+            console.log(`To continue, you must pick 7 interests. Right now you have ${container.length} interests selected`);
+            if()
         } else {
             console.log("Congrats! You picked 7 interests");
         }
