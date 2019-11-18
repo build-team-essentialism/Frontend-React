@@ -53,8 +53,8 @@ function IntialPrompt(props) {
                 }
             }) // end of map function
         } else {
-            console.log("You should never get to this statement! You did something wrong")
-            console.log(event.target.value, event.target.checked)
+            console.log("You should never get to this statement! You did something wrong");
+            console.log(event.target.value, event.target.checked);
         }
     };
 
@@ -67,8 +67,6 @@ function IntialPrompt(props) {
             console.log("Congrats! You picked 7 interests");
         }
     };
-
-
     
     return (
         <div>
