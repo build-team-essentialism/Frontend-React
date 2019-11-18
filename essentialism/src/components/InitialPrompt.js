@@ -27,34 +27,47 @@
     //  One page that is a combination of the 2 above put into 1 form.
 
 import React, { useState, useEffect } from 'react';
+import { ErrorMessage } from "./FormValidation/ErrorMessage";
 import api from '../utils/api';
 
-function IntialPrompt() {
+function IntialPrompt(props) {
 
-    const interestContainer = []
-    const [topSeven, setTopSeven] = useState(interestContainer);
+    const [container, setContainer] = useState([]);
+
+    // useEffect(() => {
+
+    // });
+
 
     const toggle = (event) => {
-        if(event.target.checked == true && !interestContainer.includes(event.target.value)) {
-            interestContainer.push(event.target.value);
-            console.log("Pushing!", interestContainer);
-        } else if(event.target.checked == false && interestContainer.includes(event.target.value)) {
-            interestContainer.map( (interest, index) => {
+        if(event.target.checked == true && !container.includes(event.target.value)) {
+            container.push(event.target.value);
+            setContainer(container);
+            console.log("Pushing!", container);
+        } else if(event.target.checked == false && container.includes(event.target.value)) {
+            container.map( (interest, index) => {
                 if(interest == event.target.value) {
-                    interestContainer.splice(index, 1);
-                    console.log("Splicing!", interestContainer);
+                    container.splice(index, 1);
+                    setContainer(container);
+                    console.log("Splicing!", container);
                 }
             }) // end of map function
         } else {
-            console.log("You should never get to this statement! You did something wrong")
-            console.log(event.target.value, event.target.checked)
+            console.log("You should never get to this statement! You did something wrong");
+            console.log(event.target.value, event.target.checked);
         }
-    }
-    
-    useEffect(() => {
-        
-    }, [topSeven])
+    };
 
+    function validate(event) {
+        event.preventDefault();
+        if(container.length < 7 || container.length > 7) {
+            console.log(`To continue, you must pick 7 interests. Right now you have ${container.length} interests selected`);
+            if()
+        } else {
+            console.log("Congrats! You picked 7 interests");
+        }
+    };
+    
     return (
         <div>
             <h1>Pick 7</h1>
@@ -157,7 +170,10 @@ function IntialPrompt() {
                     placeholder='answer here'
                     onChange={toggle}
                 /><br />
-                <button type='submit'>Submit</button>
+                <button 
+                type='submit'
+                onClick={validate}
+                >Submit</button>
             </form>
         </div>
     );
