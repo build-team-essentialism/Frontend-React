@@ -10,6 +10,7 @@ import Login from './Login';
 import Logout from './Logout';
 import ProtectedRoute from './ProtectedRoute';
 import Register from './Register';
+import InitialPrompt from './InitialPrompt';
 
 // Styling
 import styled from 'styled-components';
@@ -48,15 +49,18 @@ function NavBar() {
                         <Link to='/'>Home</Link>
                         {!signedIn && <Link to='/register'>Register</Link>}
                         {!signedIn && <Link to='/login'>Login</Link>}
-                        {signedIn && <Link to='/accounthome'>My Account</Link>}
-                        {signedIn && <Link to='/logout'>Logout</Link>}
+                        {!signedIn && <Link to='/accounthome'>My Account</Link>}
+                        {!signedIn && <Link to='/logout'>Logout</Link>}
+                        {!signedIn && <Link to='/initialprompt'>Prompt</Link>}
                     </div>
                 </Nav>
 
                 <Route exact path='/' component={Home} />
                 <Route exact path='/register' component={Register} />
                 <Route exact path='/login' component={Login} />
-                <ProtectedRoute exact path='/accounthome' component={AccountHome} />
+                {/* <ProtectedRoute exact path='/accounthome' component={AccountHome} /> */}
+                <Route exact path='/initialprompt' component={InitialPrompt} />
+                <Route exact path='/accounthome' component={AccountHome} />
                 <ProtectedRoute exact path='/logout' component={Logout} />
             </WrapperDiv>
         </>
