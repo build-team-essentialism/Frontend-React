@@ -50,15 +50,15 @@ function InitialPrompt(props) {
     const toggle = (event) => {
         if(event.target.checked === true && !container.includes(event.target.value)) {
             container.push(event.target.value);
-            setContainer(container);
             setContainerLength(containerLength + 1);
-            checkToDisableCheckboxes();
+            setContainer(container);
+            checkToDisableOrEnableCheckboxes(containerLength + 1);
         } else if(event.target.checked === false && container.includes(event.target.value)) {
             container.map( (interest, index) => {
                 if(interest === event.target.value) {
                     container.splice(index, 1);
                     setContainerLength(containerLength - 1);
-                    checkToDisableCheckboxes();
+                    checkToDisableOrEnableCheckboxes(containerLength - 1);
                     return setContainer(container);
                 }
             }) // end of map function
@@ -82,11 +82,15 @@ function InitialPrompt(props) {
         }
     };
 
-    function checkToDisableCheckboxes() {
-        const checkboxes = document.querySelectorAll('input');
-        console.log(checkboxes);
+    function checkToDisableOrEnableCheckboxes(containerLength) {
+        const allInputsNodeList = document.querySelectorAll('input');
+        const allInputsArray = Array.from(allInputsNodeList);
+        const checkboxes = allInputsArray.splice(0, allInputsArray.length-2);
+        const notCheckedArray = checkboxes.filter( (object) => !container.includes(object.name))
         if (containerLength === 7) {
-            console.log("the length of the container is", containerLength);
+            return notCheckedArray.forEach( (object) => object.disabled = true);
+        } else {
+            return notCheckedArray.forEach( (object) => object.disabled = false);
         }
     }
     
