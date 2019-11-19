@@ -6,7 +6,7 @@ export function getToken() {
 
 export default function api() {
     return axios.create({
-        baseURL: 'http://localhost:5000',
+        baseURL: 'https://the-essentials.herokuapp.com',
         headers: {
             Authorization: getToken(),
         },

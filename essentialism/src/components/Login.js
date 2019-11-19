@@ -48,14 +48,16 @@ function Login(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // api()
-        //     .post('', data)
-        //     .then(res => {
-        //         console.log(res)
-        //     })
-        //     .catch(err => {
-        //         console.log(err)
-        //     });
+        api()
+            .post('/api/auth/login', data)
+            .then(res => {
+                console.log(res)
+                localStorage.setItem('token', res.data.payload)
+                props.history.push('/accounthome')
+            })
+            .catch(err => {
+                console.log(err)
+            });
     };
 
     return (
@@ -66,14 +68,14 @@ function Login(props) {
                     type='text'
                     name='username'
                     placeholder='username'
-                    // value={data.username}
+                    value={data.username}
                     onChange={handleChange}
                 /><br />
                 <Input
                     type='password'
                     name='password'
                     placeholder='password'
-                    // value={data.password}
+                    value={data.password}
                     onChange={handleChange}
                 /><br />
                 <Button type='submit'>Login</Button>

@@ -4,7 +4,9 @@ import React from 'react';
 // COMPONENTS
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
-import { UserProvider } from './context/userContext'
+import { TaskProvider } from './context/TaskContext';
+import TaskList from './components/Tasks/TaskList';
+import AddTask from './components/Tasks/AddTask';
 
 // STYLING
 import styled from 'styled-components';
@@ -17,12 +19,12 @@ const AppDiv = styled.div`
 function App() {
   return (
     <AppDiv>
-      <UserProvider>
+      <TaskProvider>
         <NavBar />
         <Footer />
-      </UserProvider>
+      </TaskProvider>
     </AppDiv>
   );
-}
+};
 
 export default App;
