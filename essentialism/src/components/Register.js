@@ -38,39 +38,38 @@ function Register(props) {
 
     const handleSubmit = event => {
         event.preventDefault(props);
-        // api()
-        //     .post('', {
-        //         username: username,
-        //         password
-        //     })
-        //     .then(res => {
-        //         console.log(res);
-        //         localStorage.setItem('token', res.data.token);
-        //         props.history.push('/accounthome');
-        //     })
-        //     .catch(err => {
-        //         console.log('Error with register', err)
-        //     });
+        api()
+            .post('/api/auth/register', {
+                username: username,
+                password
+            })
+            .then(res => {
+                console.log('Register endpoint', res);
+                localStorage.setItem('token', res.data.token);
+                props.history.push('/login');
+            })
+            .catch(err => {
+                console.log('Error with register', err)
+            });
     };
 
     return (
         <RegisterDiv>
             <h1>Register a New Account</h1>
-            {/* <form onSubmit={handleSubmit}> */}
-            <form>
+            <form onSubmit={handleSubmit}>
                 <Input
                     type='text'
                     name='username'
                     placeholder='username'
-                    // value={data.username}
-                    // onChange={handleChange}
+                    value={username}
+                    onChange={event => setUsername(event.target.value)}
                 /><br />
                 <Input
                     type='password'
                     name='password'
                     placeholder='password'
-                    // value={data.password}
-                    // onChange={handleChange}
+                    value={password}
+                    onChange={event => setPassword(event.target.value)}
                 /><br />
                 <Button type='submit'>Register</Button>
             </form>

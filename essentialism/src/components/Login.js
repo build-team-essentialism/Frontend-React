@@ -12,18 +12,18 @@ const Login = () => {
 
     const handleSubmit = event => {
         event.preventDefault();
-        console.log(user.username);
-        console.log(user.password);
-        // Cannot handle submit until logged values have an endpoint to post to 
-        // POST method will go here:
-        // .post(`https://the-essentials.herokuapp.com/api/auth/login`)
-        // .then(response => {
-        //  console.log(response)
-        //  setUser(response.data)
-        // )
-        // .catch(error => {
-        //  console.log('Login Form submit error', error);
-        // })
+
+        api()
+            .post('/api/auth/login', data)
+            .then(res => {
+                console.log(res)
+                localStorage.setItem('token', res.data.payload)
+                props.history.push('/accounthome')
+            })
+            .catch(err => {
+                console.log(err)
+            });
+
     };
 
     function check(form) {
@@ -57,17 +57,22 @@ const Login = () => {
                     className='mx-auto my-2 w-50'
                     type='text'
                     name='username'
-                    value={user.username}
-                    onChange={event => handleChange(event)}
-                    />
-                <Label for='password'>Password</Label>
+
+                    placeholder='username'
+                    value={data.username}
+                    onChange={handleChange}
+                /><br />
+
                 <Input
                     className='mx-auto my-2 w-50'
                     type='password'
                     name='password'
-                    value={user.password}
-                    onChange={event => handleChange(event)}
-                    />
+
+                    placeholder='password'
+                    value={data.password}
+                    onChange={handleChange}
+                /><br />
+
                 <Button type='submit'>Login</Button>
             </Form>
         </LoginDiv>
