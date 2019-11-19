@@ -28,63 +28,70 @@
 
 import React, { useState, useEffect } from 'react';
 import content from "../utils/initialPromptContent";
-import ErrorMessage from "./FormValidation/ErrorMessage";
+import ValidationMessage from "./FormValidation/ValidationMessage";
 import CountMessage from "./FormValidation/CountMessage";
+import TextFieldQuestions from "./FormQuestions/TextFieldQuestions";
 import api from '../utils/api';
 
 function InitialPrompt(props) {
+    // MARK: - Hook States
     const [container, setContainer] = useState([]);
     const [containerLength, setContainerLength] = useState(0)
     const [textAreaOne, setTextAreaOne] = useState("");
     const [textAreaTwo, setTextAreaTwo] = useState("");
 
-    const [containerAll] = useState(content);
-
-    const [containerErrorMessage, setContainerErrorMessage] = useState("");
-    const [textFieldOneErrorMessage, setTextFieldOneErrorMessage] = useState("");
-    const [textFieldTwoErrorMessage, setTextFieldTwoErrorMessage] = useState("");
+    // MARK: - Error Message State
+    const [containerValidationMessage, setContainerValidationMessage] = useState("")
+    const [textFieldOneValidationMessage, setTextFieldOneValidationMessage] = useState("");
+    const [textFieldTwoValidationMessage, setTextFieldTwoValidationMessage] = useState("");
 
     // MARK: - Event Listeners
     const toggle = (event) => {
         if(event.target.checked === true && !container.includes(event.target.value)) {
             container.push(event.target.value);
-            setContainer(container);
             setContainerLength(containerLength + 1);
-            console.log("Pushing!", container);
+            setContainer(container);
+            checkToDisableOrEnableCheckboxes(containerLength + 1);
         } else if(event.target.checked === false && container.includes(event.target.value)) {
             container.map( (interest, index) => {
                 if(interest === event.target.value) {
                     container.splice(index, 1);
                     setContainerLength(containerLength - 1);
-                    console.log("Splicing!", container);
+                    checkToDisableOrEnableCheckboxes(containerLength - 1);
                     return setContainer(container);
                 }
             }) // end of map function
         } else {
             console.log("You should never get to this statement! You did something wrong");
-            console.log(event.target.value, event.target.checked);
         }
     };
 
     function validate(event) {
         event.preventDefault();
         if(containerLength < 7 || containerLength > 7) {
-            setContainerErrorMessage(`To continue, you must pick 7 interests.`);
+            setContainerValidationMessage(`To continue, you must pick 7 interests.`);
             if(textAreaOne === "") {
-               setTextFieldOneErrorMessage(`Woah! Buddy your first text field is empty. Give us something.`);
+               setTextFieldOneValidationMessage(`Woah! Buddy your first text field is empty. Give us something.`);
             }
             if(textAreaTwo === "") {
-                setTextFieldTwoErrorMessage(`Looks like your second text field is empty. Could you please put something into it`)
+                setTextFieldTwoValidationMessage(`Looks like your second text field is empty. Could you please put something into it`)
             }
-        } else if (containerLength == 7) {
-            setContainerErrorMessage("seven of seven");
-            disableCheckboxes();
+        } else {
+            setContainerValidationMessage("✔︎");
         }
     };
 
-    function disableCheckboxes() {
-        // look into ways to disable the other textboxes, map through checkbox and container
-        const checkboxes = document.querySelectorAll("input");
+
+    function checkToDisableOrEnableCheckboxes(containerLength) {
+        const allInputsNodeList = document.querySelectorAll('input');
+        const allInputsArray = Array.from(allInputsNodeList);
+        const checkboxes = allInputsArray.splice(0, allInputsArray.length-2);
+        const notCheckedArray = checkboxes.filter( (object) => !container.includes(object.name))
+        if (containerLength === 7) {
+            return notCheckedArray.forEach( (object) => object.disabled = true);
+        } else {
+            return notCheckedArray.forEach( (object) => object.disabled = false);
+        }
     }
     
     // MARK: - Render HTML
@@ -92,34 +99,24 @@ function InitialPrompt(props) {
         <div>
             <h1>Pick 7 interests from the list below</h1>
             <form>
-            <ErrorMessage message={containerErrorMessage}/>
-            <CountMessage message={containerLength} />
-            {content.map( (name, index) => (
-                <div key={index}>
-                    <input
-                        type='checkbox'
-                        name={name}
-                        value={name}
-                        onChange={toggle}
-                    ></input>
-                    <label>{name}</label>
-                    <br/>
-                </div>
-            ))}
-                <p>Why are these values important to you? Don't worry about spelling or grammar. This is for your eyes only.</p>
-                <ErrorMessage message={textFieldOneErrorMessage}/>
-                <input
-                    type='textarea'
-                    name='promptone'
-                    placeholder='answer here'
-                /><br />
-                <p>prompt for user goes here</p>
-                <ErrorMessage message={textFieldTwoErrorMessage}/>
-                <input
-                    type='textarea'
-                    name='promptwo'
-                    placeholder='answer here'
-                /><br />
+                <ValidationMessage message={containerValidationMessage}/>
+                <CountMessage message={containerLength} />
+                {content.map( (name, index) => (
+                    <div key={index}>
+                        <input
+                            type='checkbox'
+                            name={name}
+                            value={name}
+                            onChange={toggle}
+                        ></input>
+                        <label>{name}</label>
+                        <br/>
+                    </div>
+                ))}
+
+            <TextFieldQuestions messageForTextFieldOne={textFieldOneValidationMessage} 
+                                messageForTextFieldTwo={setTextFieldTwoValidationMessage} 
+            />
                 <button 
                 type='submit'
                 onClick={validate}
