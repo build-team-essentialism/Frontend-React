@@ -66,20 +66,24 @@ function InitialPrompt(props) {
         }
     };
 
-    function validate(event) {
+    function validateFormOne(event) {
         event.preventDefault();
         if(containerLength < 7 || containerLength > 7) {
             setContainerValidationMessage(`To continue, you must pick 7 interests.`);
-            if(textAreaOne === "") {
-               setTextFieldOneValidationMessage(`Woah! Buddy your first text field is empty. Give us something.`);
-            }
-            if(textAreaTwo === "") {
-                setTextFieldTwoValidationMessage(`Looks like your second text field is empty. Could you please put something into it`)
-            }
         } else {
             setContainerValidationMessage("✔︎");
         }
     };
+
+    function validateFormTwo(event) {
+        event.preventDefault();
+        if(textAreaOne === "") {
+               setTextFieldOneValidationMessage(`Woah! Buddy your first text field is empty. Give us something.`);
+            }
+            if(textAreaTwo === "") {
+                setTextFieldTwoValidationMessage(`Looks like your second text field is empty. Could you please put something into it`);
+        }
+    }
 
 
     function checkToDisableOrEnableCheckboxes(containerLength) {
@@ -113,13 +117,19 @@ function InitialPrompt(props) {
                         <br/>
                     </div>
                 ))}
+                <button 
+                type='submit'
+                onClick={validateFormOne}
+                >Submit</button>
+            </form>
 
+            <form>
             <TextFieldQuestions messageForTextFieldOne={textFieldOneValidationMessage} 
                                 messageForTextFieldTwo={setTextFieldTwoValidationMessage} 
             />
                 <button 
                 type='submit'
-                onClick={validate}
+                onClick={validateFormTwo}
                 >Submit</button>
             </form>
         </div>
