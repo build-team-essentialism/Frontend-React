@@ -31,7 +31,6 @@ import { ErrorMessage } from "./FormValidation/ErrorMessage";
 import api from '../utils/api';
 
 function IntialPrompt(props) {
-
     const [container, setContainer] = useState([]);
 
     // useEffect(() => {
@@ -62,7 +61,6 @@ function IntialPrompt(props) {
         event.preventDefault();
         if(container.length < 7 || container.length > 7) {
             console.log(`To continue, you must pick 7 interests. Right now you have ${container.length} interests selected`);
-            if()
         } else {
             console.log("Congrats! You picked 7 interests");
         }
