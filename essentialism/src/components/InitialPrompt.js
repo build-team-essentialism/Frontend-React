@@ -30,6 +30,7 @@ import React, { useState, useEffect } from 'react';
 import content from "../utils/initialPromptContent";
 import ValidationMessage from "./FormValidation/ValidationMessage";
 import CountMessage from "./FormValidation/CountMessage";
+import TextFieldQuestions from "./FormQuestions/TextFieldQuestions";
 import api from '../utils/api';
 
 function InitialPrompt(props) {
@@ -76,10 +77,11 @@ function InitialPrompt(props) {
             if(textAreaTwo === "") {
                 setTextFieldTwoValidationMessage(`Looks like your second text field is empty. Could you please put something into it`)
             }
-        } else if (containerLength == 7) {
+        } else {
             setContainerValidationMessage("✔︎");
         }
     };
+
 
     function checkToDisableOrEnableCheckboxes(containerLength) {
         const allInputsNodeList = document.querySelectorAll('input');
@@ -98,34 +100,24 @@ function InitialPrompt(props) {
         <div>
             <h1>Pick 7 interests from the list below</h1>
             <form>
-            <ValidationMessage message={containerValidationMessage}/>
-            <CountMessage message={containerLength} />
-            {content.map( (name, index) => (
-                <div key={index}>
-                    <input
-                        type='checkbox'
-                        name={name}
-                        value={name}
-                        onChange={toggle}
-                    ></input>
-                    <label>{name}</label>
-                    <br/>
-                </div>
-            ))}
-                <p>Why are these values important to you? Don't worry about spelling or grammar. This is for your eyes only.</p>
-                <ValidationMessage message={textFieldOneValidationMessage}/>
-                <input
-                    type='textarea'
-                    name='promptone'
-                    placeholder='answer here'
-                /><br />
-                <p>What projects are you involved in?</p>
-                <ValidationMessage message={textFieldTwoValidationMessage}/>
-                <input
-                    type='textarea'
-                    name='promptwo'
-                    placeholder='answer here'
-                /><br />
+                <ValidationMessage message={containerValidationMessage}/>
+                <CountMessage message={containerLength} />
+                {content.map( (name, index) => (
+                    <div key={index}>
+                        <input
+                            type='checkbox'
+                            name={name}
+                            value={name}
+                            onChange={toggle}
+                        ></input>
+                        <label>{name}</label>
+                        <br/>
+                    </div>
+                ))}
+
+            <TextFieldQuestions messageForTextFieldOne={textFieldOneValidationMessage} 
+                                messageForTextFieldTwo={setTextFieldTwoValidationMessage} 
+            />
                 <button 
                 type='submit'
                 onClick={validate}
