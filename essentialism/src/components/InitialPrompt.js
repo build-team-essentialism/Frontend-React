@@ -34,17 +34,16 @@ import api from '../utils/api';
 
 function InitialPrompt(props) {
 
-    //MARK: - Hook States
+    // MARK: - Hook States
     const [container, setContainer] = useState([]);
     const [containerLength, setContainerLength] = useState(0)
     const [textAreaOne, setTextAreaOne] = useState("");
     const [textAreaTwo, setTextAreaTwo] = useState("");
 
-    const [containerAll] = useState(content);
-
-    const [containerErrorMessage, setContainerErrorMessage] = useState("")
-    const [textFieldOneErrorMessage, setTextFieldOneErrorMessage] = useState("");
-    const [textFieldTwoErrorMessage, setTextFieldTwoErrorMessage] = useState("");
+    // MARK: - Error Message State
+    const [containerValidationMessage, setContainerValidationMessage] = useState("")
+    const [textFieldOneValidationMessage, setTextFieldOneValidationMessage] = useState("");
+    const [textFieldTwoValidationMessage, setTextFieldTwoValidationMessage] = useState("");
 
     // MARK: - Event Listeners
     const toggle = (event) => {
@@ -70,15 +69,15 @@ function InitialPrompt(props) {
     function validate(event) {
         event.preventDefault();
         if(containerLength < 7 || containerLength > 7) {
-            setContainerErrorMessage(`To continue, you must pick 7 interests.`);
+            setContainerValidationMessage(`To continue, you must pick 7 interests.`);
             if(textAreaOne === "") {
-               setTextFieldOneErrorMessage(`Woah! Buddy your first text field is empty. Give us something.`);
+               setTextFieldOneValidationMessage(`Woah! Buddy your first text field is empty. Give us something.`);
             }
             if(textAreaTwo === "") {
-                setTextFieldTwoErrorMessage(`Looks like your second text field is empty. Could you please put something into it`)
+                setTextFieldTwoValidationMessage(`Looks like your second text field is empty. Could you please put something into it`)
             }
         } else if (containerLength == 7) {
-            setContainerErrorMessage("✔︎");
+            setContainerValidationMessage("✔︎");
         }
     };
 
@@ -99,7 +98,7 @@ function InitialPrompt(props) {
         <div>
             <h1>Pick 7 interests from the list below</h1>
             <form>
-            <ValidationMessage message={containerErrorMessage}/>
+            <ValidationMessage message={containerValidationMessage}/>
             <CountMessage message={containerLength} />
             {content.map( (name, index) => (
                 <div key={index}>
@@ -114,14 +113,14 @@ function InitialPrompt(props) {
                 </div>
             ))}
                 <p>Why are these values important to you? Don't worry about spelling or grammar. This is for your eyes only.</p>
-                <ValidationMessage message={textFieldOneErrorMessage}/>
+                <ValidationMessage message={textFieldOneValidationMessage}/>
                 <input
                     type='textarea'
                     name='promptone'
                     placeholder='answer here'
                 /><br />
                 <p>What projects are you involved in?</p>
-                <ValidationMessage message={textFieldTwoErrorMessage}/>
+                <ValidationMessage message={textFieldTwoValidationMessage}/>
                 <input
                     type='textarea'
                     name='promptwo'
