@@ -33,8 +33,6 @@ import CountMessage from "./FormValidation/CountMessage";
 import api from '../utils/api';
 
 function InitialPrompt(props) {
-
-    //MARK: - Hook States
     const [container, setContainer] = useState([]);
     const [containerLength, setContainerLength] = useState(0)
     const [textAreaOne, setTextAreaOne] = useState("");

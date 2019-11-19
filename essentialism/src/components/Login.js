@@ -1,6 +1,64 @@
-import React, { useState } from 'react';
-import api from '../utils/api';
+import React, { useState, useEffect } from 'react';
+import { api } from '../utils/api';
 import styled from 'styled-components';
+import { Button, Form, Label, Input } from 'reactstrap';
+
+const Login = () => {
+    const [user, setUser] = useState({ username: '', password: '' });
+    
+    const handleChange = event => {
+        setUser({ ...user, [event.target.name]: event.target.value });
+    };
+
+    const handleSubmit = event => {
+        event.preventDefault();
+        console.log(user.username);
+        console.log(user.password);
+        // Cannot handle submit until logged values have an endpoint to post to 
+        // POST method will go here:
+        // .post(`https://website.com/data`)
+        // .then(response => {
+        //  setUser(response.data)
+        // )
+        // .catch(error => {
+        //  console.log('Login Form submit error', error);
+        // })
+    };
+
+    function validateForm (value) {
+        const validUsername = value.search(/^[a-z0-9_-]{3,16}$/);
+        if(validUsername) {
+            return 'Please enter a username with only letters, numbers, or dashes.'
+        } else {
+            
+        }
+    }
+            
+            return (
+            <LoginDiv>
+            <h1>Login</h1>
+            <Form onSubmit={handleSubmit}>
+                <Label for='username'>Username</Label>
+                <Input
+                    className='mx-auto my-2 w-50'
+                    type='text'
+                    name='username'
+                    value={user.username}
+                    onChange={event => handleChange(event)}
+                    />
+                <Label for='password'>Password</Label>
+                <Input
+                    className='mx-auto my-2 w-50'
+                    type='password'
+                    name='password'
+                    value={user.password}
+                    onChange={event => handleChange(event)}
+                    />
+                <Button type='submit'>Login</Button>
+            </Form>
+        </LoginDiv>
+    );
+};
 
 const LoginDiv = styled.div`
     padding: 5% 0% 10% 0%;
@@ -8,78 +66,5 @@ const LoginDiv = styled.div`
     border-radius: 5px;
     background-color: indianred;
 `;
-const Input = styled.input`
-    display: block;
-    padding: 10px;
-	width: 50%;
-	margin-bottom: 10px;
-	outline: none;
-	border-radius: 5px;
-    border: 2px solid black;
-    margin: 0 auto;
-`;
-const Button = styled.button`
-    background: lightgrey;
-	border: 2px solid black;
-	border-radius: 5px;
-	padding: 10px 20px;
-	cursor: pointer;
-	font-size: 14px;
-    font-weight: 500;
-    &:hover {
-        background-color: khaki;
-        color: black;
-    }
-`;
-
-function Login(props) {
-    const [data, setData] = useState({
-        username: '',
-        password: '',
-    });
-
-    const handleChange = (event) => {
-        event.preventDefault();
-        setData({
-            ...data,
-            [event.target.name]: event.target.value,
-        });
-    };
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // api()
-        //     .post('', data)
-        //     .then(res => {
-        //         console.log(res)
-        //     })
-        //     .catch(err => {
-        //         console.log(err)
-        //     });
-    };
-
-    return (
-        <LoginDiv>
-            <h1>Sign In</h1>
-            <form onSubmit={handleSubmit}>
-                <Input
-                    type='text'
-                    name='username'
-                    placeholder='username'
-                    // value={data.username}
-                    onChange={handleChange}
-                /><br />
-                <Input
-                    type='password'
-                    name='password'
-                    placeholder='password'
-                    // value={data.password}
-                    onChange={handleChange}
-                /><br />
-                <Button type='submit'>Login</Button>
-            </form>
-        </LoginDiv>
-    );
-};
 
 export default Login;
