@@ -6,14 +6,14 @@ export const TaskProvider = (props) => {
     const [tasks, setTasks] = useState([
         {
             name: 'Add Task(s)!',
-            timeframe: '1 week',
+            timeframe: '10 minutes',
             id: 23124
         },
-        {
-            name: 'Now Add More!',
-            timeframe: '2 weeks',
-            id: 2566124
-        },
+        // {
+        //     name: 'Now Add More!',
+        //     timeframe: '2 weeks',
+        //     id: 2566124
+        // },
     ]);
 
     console.log('Tasks', tasks);
