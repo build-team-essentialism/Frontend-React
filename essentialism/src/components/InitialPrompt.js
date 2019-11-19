@@ -28,7 +28,7 @@
 
 import React, { useState, useEffect } from 'react';
 import content from "../utils/initialPromptContent";
-import ErrorMessage from "./FormValidation/ErrorMessage";
+import ValidationMessage from "./FormValidation/ValidationMessage";
 import CountMessage from "./FormValidation/CountMessage";
 import api from '../utils/api';
 
@@ -42,7 +42,7 @@ function InitialPrompt(props) {
 
     const [containerAll] = useState(content);
 
-    const [containerErrorMessage, setContainerErrorMessage] = useState("");
+    const [containerErrorMessage, setContainerErrorMessage] = useState("")
     const [textFieldOneErrorMessage, setTextFieldOneErrorMessage] = useState("");
     const [textFieldTwoErrorMessage, setTextFieldTwoErrorMessage] = useState("");
 
@@ -52,19 +52,18 @@ function InitialPrompt(props) {
             container.push(event.target.value);
             setContainer(container);
             setContainerLength(containerLength + 1);
-            console.log("Pushing!", container);
+            checkToDisableCheckboxes();
         } else if(event.target.checked === false && container.includes(event.target.value)) {
             container.map( (interest, index) => {
                 if(interest === event.target.value) {
                     container.splice(index, 1);
                     setContainerLength(containerLength - 1);
-                    console.log("Splicing!", container);
+                    checkToDisableCheckboxes();
                     return setContainer(container);
                 }
             }) // end of map function
         } else {
             console.log("You should never get to this statement! You did something wrong");
-            console.log(event.target.value, event.target.checked);
         }
     };
 
@@ -79,14 +78,16 @@ function InitialPrompt(props) {
                 setTextFieldTwoErrorMessage(`Looks like your second text field is empty. Could you please put something into it`)
             }
         } else if (containerLength == 7) {
-            setContainerErrorMessage("seven of seven");
-            disableCheckboxes();
+            setContainerErrorMessage("✔︎");
         }
     };
 
-    function disableCheckboxes() {
-        // look into ways to disable the other textboxes, map through checkbox and container
-        const checkboxes = document.querySelectorAll("input");
+    function checkToDisableCheckboxes() {
+        const checkboxes = document.querySelectorAll('input');
+        console.log(checkboxes);
+        if (containerLength === 7) {
+            console.log("the length of the container is", containerLength);
+        }
     }
     
     // MARK: - Render HTML
@@ -94,7 +95,7 @@ function InitialPrompt(props) {
         <div>
             <h1>Pick 7 interests from the list below</h1>
             <form>
-            <ErrorMessage message={containerErrorMessage}/>
+            <ValidationMessage message={containerErrorMessage}/>
             <CountMessage message={containerLength} />
             {content.map( (name, index) => (
                 <div key={index}>
@@ -109,14 +110,14 @@ function InitialPrompt(props) {
                 </div>
             ))}
                 <p>Why are these values important to you? Don't worry about spelling or grammar. This is for your eyes only.</p>
-                <ErrorMessage message={textFieldOneErrorMessage}/>
+                <ValidationMessage message={textFieldOneErrorMessage}/>
                 <input
                     type='textarea'
                     name='promptone'
                     placeholder='answer here'
                 /><br />
-                <p>prompt for user goes here</p>
-                <ErrorMessage message={textFieldTwoErrorMessage}/>
+                <p>What projects are you involved in?</p>
+                <ValidationMessage message={textFieldTwoErrorMessage}/>
                 <input
                     type='textarea'
                     name='promptwo'
