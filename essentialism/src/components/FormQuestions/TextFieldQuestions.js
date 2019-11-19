@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import ValidationMessage from "../FormValidation/ValidationMessage";
 
 function TextFieldQuestions(props) {
 
-	const {messageForTextFieldOne, messageForTextFieldTwo} = props
+	const {messageForTextFieldOne, messageForTextFieldTwo} = props;
+    const [visible, setVisible] = useState(false);
 
 	return (
 		<div>
