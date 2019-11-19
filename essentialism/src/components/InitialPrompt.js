@@ -34,7 +34,6 @@ import TextFieldQuestions from "./FormQuestions/TextFieldQuestions";
 import api from '../utils/api';
 
 function InitialPrompt(props) {
-
     // MARK: - Hook States
     const [container, setContainer] = useState([]);
     const [containerLength, setContainerLength] = useState(0)
