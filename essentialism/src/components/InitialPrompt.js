@@ -40,6 +40,8 @@ function InitialPrompt(props) {
     const [textAreaOne, setTextAreaOne] = useState("");
     const [textAreaTwo, setTextAreaTwo] = useState("");
 
+    const [containerAll] = useState(content);
+
     const [containerErrorMessage, setContainerErrorMessage] = useState("");
     const [textFieldOneErrorMessage, setTextFieldOneErrorMessage] = useState("");
     const [textFieldTwoErrorMessage, setTextFieldTwoErrorMessage] = useState("");
@@ -78,11 +80,13 @@ function InitialPrompt(props) {
             }
         } else if (containerLength == 7) {
             setContainerErrorMessage("seven of seven");
+            disableCheckboxes();
         }
     };
 
     function disableCheckboxes() {
-        
+        // look into ways to disable the other textboxes, map through checkbox and container
+        const checkboxes = document.querySelectorAll("input");
     }
     
     // MARK: - Render HTML
