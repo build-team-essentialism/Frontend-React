@@ -4,6 +4,7 @@ import React from 'react';
 // COMPONENTS
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
+import { UserProvider } from './context/userContext'
 
 // STYLING
 import styled from 'styled-components';
@@ -16,8 +17,10 @@ const AppDiv = styled.div`
 function App() {
   return (
     <AppDiv>
-      <NavBar />
-      <Footer />
+      <UserProvider>
+        <NavBar />
+        <Footer />
+      </UserProvider>
     </AppDiv>
   );
 }

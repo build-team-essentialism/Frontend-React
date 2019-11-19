@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { useDarkMode } from '../hooks/useDarkMode';
+
+import { getToken } from '../utils/api';
+import { UserContext } from '../context/userContext';
 
 const FooterDiv = styled.footer`
     background-color: indianred;
@@ -23,21 +26,27 @@ const DarkToggleDiv = styled.div`
 `;
 
 function Footer() {
+    const signedIn = getToken();
+    const [objectives, setObjectives] = useContext(UserContext);
     const [darkMode, setDarkMode] = useDarkMode();
+
     const toggleMode = event => {
         event.preventDefault();
         setDarkMode(!darkMode);
     };
 
     return (
-        <FooterDiv>
-            <DarkToggleDiv>
-                <div
-                    onClick={toggleMode}
-                    className={darkMode ? 'toggle toggled' : 'toggle'}
-                />
-            </DarkToggleDiv>
-        </FooterDiv>
+        <>
+            <FooterDiv>
+                <DarkToggleDiv>
+                    <div
+                        onClick={toggleMode}
+                        className={darkMode ? 'toggle toggled' : 'toggle'}
+                    />
+                </DarkToggleDiv>
+            </FooterDiv>
+            {!signedIn && <p>Remaining Objectives: {objectives.length}</p>}
+        </>
     )
 }
 

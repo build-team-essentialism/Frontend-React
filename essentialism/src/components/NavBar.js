@@ -11,6 +11,7 @@ import Logout from './Logout';
 import ProtectedRoute from './ProtectedRoute';
 import Register from './Register';
 import InitialPrompt from './InitialPrompt';
+import PersonalObjectives from './PersonalObjectives';
 
 // Styling
 import styled from 'styled-components';
@@ -46,20 +47,26 @@ function NavBar() {
             <WrapperDiv>
                 <Nav>
                     <div>
+                        {/* dont need to be signed in */}
                         <Link to='/'>Home</Link>
                         {!signedIn && <Link to='/register'>Register</Link>}
                         {!signedIn && <Link to='/login'>Login</Link>}
+                        {/* need to be logged in */}
                         {!signedIn && <Link to='/accounthome'>My Account</Link>}
                         {!signedIn && <Link to='/logout'>Logout</Link>}
                         {!signedIn && <Link to='/initialprompt'>Prompt</Link>}
+                        {!signedIn && <Link to='/myobjectives'>My Objectives</Link>}
                     </div>
                 </Nav>
 
+                {/* dont need to be signed in */}
                 <Route exact path='/' component={Home} />
                 <Route exact path='/register' component={Register} />
                 <Route exact path='/login' component={Login} />
+                {/* need to be logged in */}
                 {/* <ProtectedRoute exact path='/accounthome' component={AccountHome} /> */}
                 <Route exact path='/initialprompt' component={InitialPrompt} />
+                <Route exact path='/myobjectives' component={PersonalObjectives} />
                 <Route exact path='/accounthome' component={AccountHome} />
                 <ProtectedRoute exact path='/logout' component={Logout} />
             </WrapperDiv>
