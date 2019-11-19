@@ -50,10 +50,10 @@ function NavBar() {
                         <Link to='/'>Home</Link>
                         {!signedIn && <Link to='/register'>Register</Link>}
                         {!signedIn && <Link to='/login'>Login</Link>}
-                        {!signedIn && <Link to='/accounthome'>My Account</Link>}
-                        {!signedIn && <Link to='/initialprompt'>Prompt</Link>}
-                        {!signedIn && <Link to='/tasks'>Tasks</Link>}
-                        {!signedIn && <Link to='/logout'>Logout</Link>}
+                        {signedIn && <Link to='/accounthome'>My Account</Link>}
+                        {signedIn && <Link to='/initialprompt'>Prompt</Link>}
+                        {signedIn && <Link to='/tasks'>Tasks</Link>}
+                        {signedIn && <Link to='/logout'>Logout</Link>}
                     </div>
                 </Nav>
 
