@@ -70,14 +70,15 @@ function Login(props) {
                     placeholder='username'
                     value={data.username}
                     onChange={handleChange}
-                /><br />
+                />
                 <Input
+                    className='my-4'
                     type='password'
                     name='password'
                     placeholder='password'
                     value={data.password}
                     onChange={handleChange}
-                /><br />
+                />
                 <Button type='submit'>Login</Button>
             </form>
         </LoginDiv>
