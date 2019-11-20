@@ -8,10 +8,10 @@ const CountDiv = styled.div`
 
 function CountMessage(props) {
 
-	const {message} = props;
+	const {currentCount, max} = props;
 
 	return (
-		<CountDiv>{message}/7</CountDiv>
+		<CountDiv>{currentCount}/{max}</CountDiv>
 	);
 }
 

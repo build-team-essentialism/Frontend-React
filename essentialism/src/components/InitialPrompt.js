@@ -69,7 +69,13 @@ const Button = styled.button`
 function InitialPrompt(props) {
     // MARK: - Hook States
     const [container, setContainer] = useState([]);
-    const [containerLength, setContainerLength] = useState(0)
+    const [containerLength, setContainerLength] = useState(0);
+
+    const [topThreeContainer, setTopThreeContainer] = useState([]);
+    const [topThreeContainerLength, setTopThreeContainerLength] = useState(0);
+    
+    const maxLengthFirstPicks = 7;
+    const maxLengthSecondPicks = 3;
 
     const [textFieldOne, setTextFieldOne] = useState("");
     const [textFieldTwo, setTextFieldTwo] = useState("");
@@ -77,35 +83,50 @@ function InitialPrompt(props) {
     // MARK: - Error Message State
     const [containerValidationMessage, setContainerValidationMessage] = useState("")
 
+    useEffect(() => {
+        if(containerLength === 7) {
+            console.log("Hit 7 times");
+            setContainerValidationMessage("✔︎");
+        }
+        if(containerValidationMessage === "✔︎" && containerLength < 7) {
+            setContainerValidationMessage("To continue, you must pick 7 interests")
+        }
+    }, [containerLength]);
+
     // MARK: - Event Listeners
     // toggle for checkboxes
     const toggle = (event) => {
         if(event.target.checked === true && !container.includes(event.target.value)) {
-            container.push(event.target.value);
-            setContainerLength(containerLength + 1);
-            setContainer(container);
-            checkToDisableOrEnableCheckboxes(containerLength + 1);
+            containerAdd(event)
         } else if(event.target.checked === false && container.includes(event.target.value)) {
-            container.map( (interest, index) => {
-                if(interest === event.target.value) {
-                    container.splice(index, 1);
-                    setContainerLength(containerLength - 1);
-                    checkToDisableOrEnableCheckboxes(containerLength - 1);
-                    return setContainer(container);
-                }
-            }) // end of map function
+            containerRemove(event)
         } else {
             console.log("You should never get to this statement! You did something wrong");
         }
     };
 
+    // MARK: - Helper functions
+    function containerAdd(event) {
+        container.push(event.target.value);
+        setContainerLength(containerLength + 1);
+        setContainer(container);
+        checkToDisableOrEnableCheckboxes(containerLength + 1);
+    }
+
+    function containerRemove(event) {
+        container.map( (interest, index) => {
+            if(interest === event.target.value) {
+                container.splice(index, 1);
+                setContainerLength(containerLength - 1);
+                checkToDisableOrEnableCheckboxes(containerLength - 1);
+                return setContainer(container);
+            }
+        }) // end of map function
+    }
+
+    // MARK: - Button Validations
     function validateFormOne(event) {
         event.preventDefault();
-        if(containerLength < 7 || containerLength > 7) {
-            setContainerValidationMessage(`To continue, you must pick 7 interests.`);
-        } else {
-            setContainerValidationMessage("✔︎");
-        }
     };
 
     function validateFormTwo(event) {
@@ -127,6 +148,7 @@ function InitialPrompt(props) {
         const checkboxes = allInputsArray.splice(0, allInputsArray.length-2);
         const notCheckedArray = checkboxes.filter( (object) => !container.includes(object.name))
         if (containerLength === 7) {
+
             return notCheckedArray.forEach( (object) => object.disabled = true);
         } else {
             return notCheckedArray.forEach( (object) => object.disabled = false);
@@ -136,10 +158,10 @@ function InitialPrompt(props) {
     // MARK: - Render HTML
     return (
         <div>
-            <h1>Pick 7 interests from the list below</h1>
-            <form>
+            <h1 className="firstCheckboxes">Pick 7 interests from the list below</h1>
+            <form className="firstCheckboxes">
                 <ValidationMessage message={containerValidationMessage}/>
-                <CountMessage message={containerLength} />
+                <CountMessage currentCount={containerLength} max={maxLengthFirstPicks} />
                 <PromptDiv>
                     {content.map( (name, index) => (
                         <Pillar key={index}>
@@ -155,7 +177,26 @@ function InitialPrompt(props) {
                     ))}
                 </PromptDiv>
             </form>
-            <TextFieldQuestions 
+            <form className="secondCheckboxes">
+                <ValidationMessage message={containerValidationMessage}/>
+                <CountMessage currentCount={topThreeContainerLength} max={maxLengthSecondPicks} />
+                <PromptDiv>
+                    {container.map( (name, index) => (
+                        <Pillar key={index}>
+                            <input
+                                type='checkbox'
+                                name={name}
+                                value={name}
+                                onChange={toggle}
+                            ></input>
+                            <label>{name}</label>
+                            <br/>
+                        </Pillar>
+                    ))}
+                </PromptDiv>
+            </form>
+            <TextFieldQuestions
+                id="promptQuestions"
                 textFieldOne={textFieldOne} 
                 setTextFieldOne={setTextFieldOne} 
                 textFieldTwo={textFieldTwo} 
