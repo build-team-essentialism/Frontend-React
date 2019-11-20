@@ -66,7 +66,12 @@ const Button = styled.button`
     }
 `;
 
-function InitialPrompt(props) {
+function InitialPrompt(props) {  
+
+    const pillars = [];
+    const prompts = [];
+
+
     // MARK: - Hook States
     const [container, setContainer] = useState([]);
     const [containerLength, setContainerLength] = useState(0);
@@ -80,7 +85,7 @@ function InitialPrompt(props) {
     const [textFieldOne, setTextFieldOne] = useState("");
     const [textFieldTwo, setTextFieldTwo] = useState("");
 
-    // MARK: - Error Message State
+    // MARK: - Validation Message State
     const [containerValidationMessage, setContainerValidationMessage] = useState("");
     const [topThreeContainerValidationMessage, setTopThreeContainerValidationMessage] = useState("");
 
@@ -104,11 +109,15 @@ function InitialPrompt(props) {
             setTopThreeContainerValidationMessage("✔︎")
             checkToDisableOrEnableCheckboxesSecond();
         }
+
         if(topThreeContainerValidationMessage === "✔︎" && topThreeContainerLength < maxLengthSecondPicks) {
             setTopThreeContainerValidationMessage("To contine, you must pick your top 3");
             checkToDisableOrEnableCheckboxesSecond();
         }
     }, [topThreeContainerLength]);
+
+
+    // MARK: - Axios Post
 
     // MARK: - Event Listeners
     // toggle for checkboxes
@@ -170,6 +179,14 @@ function InitialPrompt(props) {
     // MARK: - Button Validations
     function validateFormOne(event) {
         event.preventDefault();
+        container.map( (value) => {
+            let object = {}
+            object["user_id"]=localStorage.getItem('id');
+            object["pillar"]=value
+            object["top"]=false;
+            pillars.push(object)
+        });
+
     };
 
     function validateFormTwo(event) {
@@ -184,21 +201,56 @@ function InitialPrompt(props) {
         }
     }
 
+// const [pillar, setPillar] = useState({
+//         user_id: localStorage.getItem('id')
+//         pillar: '',
+//         top: false
+//     });
+
+//     const handleChanges = (event) => {
+//         event.preventDefault();
+//         setPillar({
+//             ...pillar,
+//             [event.target.name]: event.target.value
+//         });
+//     };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        validateFormOne(event);
+        api()
+            .post(`/api/pillars`, pillars)
+            .then(res => {
+                console.log('Pillar post res', res)
+            })
+            .catch(err => {
+                console.log('Pillar post err', err)
+            })
+        
+        prompts.push(textFieldOne);
+        prompts.push(textFieldTwo);
+        api()
+            .post(`/api/prompts`, prompts)
+            .then(res => {
+                console.log('Prompt post res', res)
+            })
+            .catch(err => {
+                console.log('Prompt post err', err)
+            })
+
+    }
+
     function getCheckboxesForOne() {
         const allInputsNodeList = document.querySelectorAll('.checkbox-1');
-        const checkboxes = Array.from(allInputsNodeList);
-        // const checkboxes = allInputsArray.splice(0, allInputsArray);
+        const checkboxes = Array.from(allInputsNodeList);        
         return checkboxes;
     }
 
     function getCheckboxesForTwo() {
         const allInputsNodeList = document.querySelectorAll('.checkbox-2');
         const checkboxes = Array.from(allInputsNodeList);
-        // const checkboxes = allInputsArray.splice(0, allInputsArray);
         return checkboxes;
     }
-
-
 
     function checkToDisableOrEnableCheckboxesFirst() {
         const notCheckedArray = getCheckboxesForOne().filter( (object) => !container.includes(object.name))
@@ -268,7 +320,7 @@ function InitialPrompt(props) {
                 setTextFieldTwo={setTextFieldTwo}/>
             <Button
             type='submit'
-            onClick={validateFormTwo}
+            onClick={handleSubmit}
             >Submit</Button>
         </div>
     );

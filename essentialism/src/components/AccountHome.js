@@ -29,24 +29,35 @@
 import React, { useState, useEffect } from 'react';
 import api from '../utils/api';
 
-function AccountHome(props) {
+
+function AccountHome() {
+  
     const [pillars, setPillars] = useState([]);
 
     useEffect(() => {
         api()
             .get(`/api/users/${localStorage.getItem('id')}`)
             .then(res => {
-                console.log(res.data.user)
-                setPillars(res.data.user.pillars)
+
+                console.log(res);
+                console.log(res.data.user.pillars);
+                setPillars(res.data.user.pillars);
+          
             })
             .catch(err => {
                 console.log('Error with get AH', err)
             })
-    }, [props.match.params.id])
+        api()
+            .get(`/api/prompts/`)
+    }, [])
+
 
     return (
         <div>
             <h1>Account Home</h1>
+            {pillars.map( pillar => (
+                <p>{pillar.pillar}</p>
+            ))}
         </div>
     );
 };
