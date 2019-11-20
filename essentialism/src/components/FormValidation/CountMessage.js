@@ -8,12 +8,10 @@ const CountDiv = styled.div`
 
 function CountMessage(props) {
 
-	const {message} = props
-
-	const [visible, setVisible] = useState(true);
+	const {message} = props;
 
 	return (
-		<CountDiv isOpen={visible}>{message}/7</CountDiv>
+		<CountDiv>{message}/7</CountDiv>
 	);
 }
 
