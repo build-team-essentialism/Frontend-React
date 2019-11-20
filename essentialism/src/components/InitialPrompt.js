@@ -68,6 +68,7 @@ const Button = styled.button`
 
 function InitialPrompt(props) {  
 
+    // MARK: - Array of Objects
     const pillars = [];
     const prompts = [];
 
@@ -115,9 +116,6 @@ function InitialPrompt(props) {
             checkToDisableOrEnableCheckboxesSecond();
         }
     }, [topThreeContainerLength]);
-
-
-    // MARK: - Axios Post
 
     // MARK: - Event Listeners
     // toggle for checkboxes
@@ -215,6 +213,7 @@ function InitialPrompt(props) {
 //         });
 //     };
 
+    // MARK: - Axios Call
     const handleSubmit = (event) => {
         event.preventDefault();
         validateFormOne(event);
@@ -227,8 +226,16 @@ function InitialPrompt(props) {
                 console.log('Pillar post err', err)
             })
         
-        prompts.push(textFieldOne);
-        prompts.push(textFieldTwo);
+        let object = {}
+        object["prompt"] = textFieldOne;
+        object["user_id"]=localStorage.getItem('id');
+        prompts.push(object);
+
+        let object2 = {}
+        object2["prompt"] = textFieldTwo;
+        object2["user_id"]=localStorage.getItem('id');
+        prompts.push(object2);
+
         api()
             .post(`/api/prompts`, prompts)
             .then(res => {

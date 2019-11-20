@@ -33,6 +33,7 @@ import api from '../utils/api';
 function AccountHome() {
   
     const [pillars, setPillars] = useState([]);
+    const [prompts, setPrompts] = useState([]);
 
     useEffect(() => {
         api()
@@ -42,13 +43,12 @@ function AccountHome() {
                 console.log(res);
                 console.log(res.data.user.pillars);
                 setPillars(res.data.user.pillars);
+                setPrompts(res.data.user.prompts);
           
             })
             .catch(err => {
                 console.log('Error with get AH', err)
             })
-        api()
-            .get(`/api/prompts/`)
     }, [])
 
 
@@ -57,6 +57,9 @@ function AccountHome() {
             <h1>Account Home</h1>
             {pillars.map( pillar => (
                 <p>{pillar.pillar}</p>
+            ))}
+            {prompts.map( prompt => (
+                <p>{prompt.prompt}</p>
             ))}
         </div>
     );
