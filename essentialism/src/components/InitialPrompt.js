@@ -39,15 +39,31 @@ import api from '../utils/api';
 const PromptDiv = styled.div`
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     border-bottom: 1px solid gray;
 `;
 
 const Pillar = styled.div`
+    margin-left: 2rem;
     padding: 2%;
-    width: 20%;
+    width: 45%;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: start;
+    align-items: baseline;
+`;
+
+const Button = styled.button`
+    background: lightgrey;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    &:hover {
+        background-color: khaki;
+        color: black;
+    }
 `;
 
 function InitialPrompt(props) {
@@ -144,10 +160,10 @@ function InitialPrompt(props) {
                 setTextFieldOne={setTextFieldOne} 
                 textFieldTwo={textFieldTwo} 
                 setTextFieldTwo={setTextFieldTwo}/>
-            <button
+            <Button
             type='submit'
             onClick={validateFormTwo}
-            >Submit</button>
+            >Submit</Button>
         </div>
     );
 };
