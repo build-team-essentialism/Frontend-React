@@ -56,7 +56,7 @@ function Footer() {
                 <p>Tasks: {tasks.length}</p>
             </TasksDiv>
         </>
-    )
-}
+    );
+};
 
 export default Footer;
