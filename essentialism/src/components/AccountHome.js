@@ -28,7 +28,6 @@
 
 import React, { useEffect } from 'react';
 import api from '../utils/api';
-import axios from 'axios';
 
 function AccountHome() {
     useEffect(() => {
