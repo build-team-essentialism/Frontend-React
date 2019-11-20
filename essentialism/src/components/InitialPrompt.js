@@ -81,17 +81,34 @@ function InitialPrompt(props) {
     const [textFieldTwo, setTextFieldTwo] = useState("");
 
     // MARK: - Error Message State
-    const [containerValidationMessage, setContainerValidationMessage] = useState("")
+    const [containerValidationMessage, setContainerValidationMessage] = useState("");
+    const [topThreeContainerValidationMessage, setTopThreeContainerValidationMessage] = useState("");
 
     useEffect(() => {
-        if(containerLength === 7) {
-            console.log("Hit 7 times");
+        if(containerLength === maxLengthFirstPicks) {
+            console.log("Hit 7");
             setContainerValidationMessage("✔︎");
+            // check to what not picked and then disable
+            checkToDisableOrEnableCheckboxesFirst();
         }
-        if(containerValidationMessage === "✔︎" && containerLength < 7) {
-            setContainerValidationMessage("To continue, you must pick 7 interests")
+        if(containerValidationMessage === "✔︎" && containerLength < maxLengthFirstPicks) {
+            setContainerValidationMessage("To continue, you must pick 7 interests");
+            checkToDisableOrEnableCheckboxesFirst();
         }
     }, [containerLength]);
+
+    useEffect(() => {
+        console.log(topThreeContainerLength);
+        if(topThreeContainerLength === maxLengthSecondPicks) {
+            console.log("Hit 3")
+            setTopThreeContainerValidationMessage("✔︎")
+            checkToDisableOrEnableCheckboxesSecond();
+        }
+        if(topThreeContainerValidationMessage === "✔︎" && topThreeContainerLength < maxLengthSecondPicks) {
+            setTopThreeContainerValidationMessage("To contine, you must pick your top 3");
+            checkToDisableOrEnableCheckboxesSecond();
+        }
+    }, [topThreeContainerLength]);
 
     // MARK: - Event Listeners
     // toggle for checkboxes
@@ -105,12 +122,22 @@ function InitialPrompt(props) {
         }
     };
 
-    // MARK: - Helper functions
+    const topThreeToggle = (event) => {
+        if(event.target.checked === true && !topThreeContainer.includes(event.target.value)) {
+            topThreeContainerAdd(event)
+        } else if(event.target.checked === false && topThreeContainer.includes(event.target.value)) {
+            topThreeContainerRemove(event)
+        } else {
+            console.log("You should never get to this statement! You did something wrong");
+        }
+    }
+
+
+    // MARK: - Container Helper functions
     function containerAdd(event) {
         container.push(event.target.value);
         setContainerLength(containerLength + 1);
         setContainer(container);
-        checkToDisableOrEnableCheckboxes(containerLength + 1);
     }
 
     function containerRemove(event) {
@@ -118,8 +145,24 @@ function InitialPrompt(props) {
             if(interest === event.target.value) {
                 container.splice(index, 1);
                 setContainerLength(containerLength - 1);
-                checkToDisableOrEnableCheckboxes(containerLength - 1);
                 return setContainer(container);
+            }
+        }) // end of map function
+    }
+
+    // MARK: - Top Three Container Helper functions
+    function topThreeContainerAdd(event) {
+        topThreeContainer.push(event.target.value);
+        setTopThreeContainerLength(topThreeContainerLength + 1);
+        setTopThreeContainer(topThreeContainer);
+    }
+
+    function topThreeContainerRemove(event) {
+        topThreeContainer.map( (interest, index) => {
+            if(interest === event.target.value) {
+                topThreeContainer.splice(index, 1);
+                setTopThreeContainerLength(topThreeContainerLength - 1);
+                return setTopThreeContainer(topThreeContainer);
             }
         }) // end of map function
     }
@@ -141,14 +184,34 @@ function InitialPrompt(props) {
         }
     }
 
+    function getCheckboxesForOne() {
+        const allInputsNodeList = document.querySelectorAll('.checkbox-1');
+        const checkboxes = Array.from(allInputsNodeList);
+        // const checkboxes = allInputsArray.splice(0, allInputsArray);
+        return checkboxes;
+    }
 
-    function checkToDisableOrEnableCheckboxes(containerLength) {
-        const allInputsNodeList = document.querySelectorAll('input');
-        const allInputsArray = Array.from(allInputsNodeList);
-        const checkboxes = allInputsArray.splice(0, allInputsArray.length-2);
-        const notCheckedArray = checkboxes.filter( (object) => !container.includes(object.name))
+    function getCheckboxesForTwo() {
+        const allInputsNodeList = document.querySelectorAll('.checkbox-2');
+        const checkboxes = Array.from(allInputsNodeList);
+        // const checkboxes = allInputsArray.splice(0, allInputsArray);
+        return checkboxes;
+    }
+
+
+
+    function checkToDisableOrEnableCheckboxesFirst() {
+        const notCheckedArray = getCheckboxesForOne().filter( (object) => !container.includes(object.name))
         if (containerLength === 7) {
+            return notCheckedArray.forEach( (object) => object.disabled = true);
+        } else {
+            return notCheckedArray.forEach( (object) => object.disabled = false);
+        }
+    }
 
+    function checkToDisableOrEnableCheckboxesSecond() {
+        const notCheckedArray = getCheckboxesForTwo().filter( (object) => !topThreeContainer.includes(object.name))
+        if (topThreeContainerLength === 3) {
             return notCheckedArray.forEach( (object) => object.disabled = true);
         } else {
             return notCheckedArray.forEach( (object) => object.disabled = false);
@@ -166,6 +229,7 @@ function InitialPrompt(props) {
                     {content.map( (name, index) => (
                         <Pillar key={index}>
                             <input
+                                className="checkbox-1"
                                 type='checkbox'
                                 name={name}
                                 value={name}
@@ -178,16 +242,17 @@ function InitialPrompt(props) {
                 </PromptDiv>
             </form>
             <form className="secondCheckboxes">
-                <ValidationMessage message={containerValidationMessage}/>
+                <ValidationMessage message={topThreeContainerValidationMessage}/>
                 <CountMessage currentCount={topThreeContainerLength} max={maxLengthSecondPicks} />
                 <PromptDiv>
                     {container.map( (name, index) => (
                         <Pillar key={index}>
                             <input
+                                className="checkbox-2"
                                 type='checkbox'
                                 name={name}
                                 value={name}
-                                onChange={toggle}
+                                onChange={topThreeToggle}
                             ></input>
                             <label>{name}</label>
                             <br/>
