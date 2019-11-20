@@ -82,7 +82,33 @@ function InitialPrompt(props) {
 
     // MARK: - Error Message State
     const [containerValidationMessage, setContainerValidationMessage] = useState("");
-    const [topThreeContainerValidationMessage, setTopThreeContainerValidationMessage] = useState("");
+    const [topThreeContainerValidationMessage, setTopThreeContainerValidationMessage] = 
+    useState("");
+
+    // const [prompt, setPrompt] = useState({
+    //     user_id: localStorage.getItem('id')
+    //     prompt: '',
+    // });
+
+    // const handleChanges = (event) => {
+    //     event.preventDefault();
+    //     setPrompt({
+    //         ...prompt,
+    //         [event.target.name]: event.target.value
+    //     });
+    // };
+
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     api()
+    //         .post(`/api/prompts`, prompt)
+    //         .then(res => {
+    //             console.log('Prompt post res', res)
+    //         })
+    //         .catch(err => {
+    //             console.log('Prompt post err', err)
+    //         })
+    // }
 
     useEffect(() => {
         if(containerLength === maxLengthFirstPicks) {
