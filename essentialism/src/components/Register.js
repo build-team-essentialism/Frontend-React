@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import api from '../utils/api';
 
-const RegisterDiv = styled.div`
+const AuthDiv = styled.div`
     padding: 5% 0% 10% 0%;
     border: 4px solid black;
     border-radius: 5px;
@@ -54,7 +54,7 @@ function Register(props) {
     };
 
     return (
-        <RegisterDiv>
+        <AuthDiv>
             <h1>Register a New Account</h1>
             <form onSubmit={handleSubmit}>
                 <Input
@@ -73,7 +73,7 @@ function Register(props) {
                 /><br />
                 <Button type='submit'>Register</Button>
             </form>
-        </RegisterDiv>
+        </AuthDiv>
     );
 };
 
