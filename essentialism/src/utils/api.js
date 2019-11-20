@@ -8,7 +8,7 @@ export default function api() {
     return axios.create({
         baseURL: 'https://the-essentials.herokuapp.com',
         headers: {
-            Authorization: getToken(),
+            Authorization: localStorage.getItem('token'),
         },
     });
 };

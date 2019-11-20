@@ -26,10 +26,22 @@
     //  OR
     //  One page that is a combination of the 2 above put into 1 form.
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import api from '../utils/api';
+import axios from 'axios';
 
 function AccountHome() {
+    useEffect(() => {
+        api()
+            .get(`/api/users/${localStorage.getItem('id')}`)
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => {
+                console.log('Error with get AH', err)
+            })
+    }, [])
+
     return (
         <div>
             <h1>Account Home</h1>

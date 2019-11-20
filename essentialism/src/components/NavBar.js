@@ -64,7 +64,7 @@ function NavBar() {
                 {/* ProtectedRoute(s) below in final project */}
                 <Route exact path='/initialprompt' component={InitialPrompt} />
                 <Route exact path='/tasks' component={TaskHome} />
-                <Route exact path='/accounthome' component={AccountHome} />
+                <ProtectedRoute exact path='/accounthome' component={AccountHome} />
                 <ProtectedRoute exact path='/logout' component={Logout} />
             </WrapperDiv>
         </>
