@@ -52,7 +52,8 @@ function Login(props) {
             .post('/api/auth/login', data)
             .then(res => {
                 console.log(res)
-                localStorage.setItem('token', res.data.payload)
+                localStorage.setItem('token', res.data.token)
+                localStorage.setItem('id', res.data.userId)
                 props.history.push('/initialprompt')
             })
             .catch(err => {
