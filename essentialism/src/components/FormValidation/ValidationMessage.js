@@ -21,7 +21,7 @@ function ValidationMessage(props) {
 
 	return (
 		<div>
-		{ message === "✔︎" ? <SuccessDiv isOpen={visible}>{message}</SuccessDiv> : <ErrorDiv isOpen={visible}>{message}</ErrorDiv>}
+		{ message === "✔︎" ? <SuccessDiv>{message}</SuccessDiv> : <ErrorDiv isOpen={visible}>{message}</ErrorDiv> }
 		</div>
 	);
 }
