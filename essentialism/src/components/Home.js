@@ -31,7 +31,7 @@ const Secondary = styled.p`
 function Home() {
     return (
         <Div>
-            <H1>Welocme To Essentialism</H1>
+            <H1>Welcome To Essentialism</H1>
             <h3>Theme</h3>
                 <ThemeDiv>
                     <Primary>Primary: indianred</Primary>
