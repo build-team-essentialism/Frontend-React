@@ -244,7 +244,7 @@ function InitialPrompt(props) {
             .catch(err => {
                 console.log('Prompt post err', err)
             })
-
+        props.history.push('/accounthome')
     }
 
     function getCheckboxesForOne() {

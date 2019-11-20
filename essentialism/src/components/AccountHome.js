@@ -28,7 +28,27 @@
 
 import React, { useState, useEffect } from 'react';
 import api from '../utils/api';
+import styled from 'styled-components';
 
+const Prompts = styled.p`
+    padding: 2%;
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 2%;
+    border: 2px solid white;
+    border-radius: 5px;
+`;
+const Div = styled.div`
+    display: flex;
+    justify-content: center;
+`;
+const DeleteX = styled.p`
+    margin-left: 4%;
+    color: red;
+`;
+const PillarsP = styled.p`
+    width: 50%;
+`;
 
 function AccountHome() {
   
@@ -44,22 +64,53 @@ function AccountHome() {
                 console.log(res.data.user.pillars);
                 setPillars(res.data.user.pillars);
                 setPrompts(res.data.user.prompts);
-          
             })
             .catch(err => {
                 console.log('Error with get AH', err)
             })
     }, [])
 
+    const deletePillars = (event, pillar) => {
+        event.preventDefault();
+        console.log('Delete pillars id', pillar.id)
+        api()
+            .delete(`/api/pillars/${pillar.id}`)
+            .then(res => {
+                console.log('Delete console log', res)
+                // this.props.history.push('/accounthome')
+                api()
+                    .get(`/api/users/${localStorage.getItem('id')}`)
+                    .then(res => {
+
+                        console.log(res);
+                        console.log(res.data.user.pillars);
+                        setPillars(res.data.user.pillars);
+                        setPrompts(res.data.user.prompts);
+                    })
+                    .catch(err => {
+                        console.log('Error with get AH', err)
+                    })
+            })
+            .catch(err => {
+                console.log('Delete pillar error', err)
+            })
+    };
 
     return (
         <div>
             <h1>Account Home</h1>
             {pillars.map( pillar => (
-                <p>{pillar.pillar}</p>
+                <Div>
+                    <PillarsP key={pillar.id}>
+                        {pillar.pillar}
+                    </PillarsP>
+                    <DeleteX onClick={(e) => deletePillars(e, pillar)}>
+                        X
+                    </DeleteX>
+                </Div>
             ))}
             {prompts.map( prompt => (
-                <p>{prompt.prompt}</p>
+                <Prompts>{prompt.prompt}</Prompts>
             ))}
         </div>
     );
