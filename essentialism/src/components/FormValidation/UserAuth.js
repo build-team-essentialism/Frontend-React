@@ -1,4 +1,5 @@
 import React from 'react';
+import ValidationMessage from './ValidationMessage';
 
 export default function check(form) {
     if (form.username.value == '' || form.username.value == null) {
