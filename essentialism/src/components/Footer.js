@@ -53,7 +53,7 @@ function Footer() {
                 </DarkToggleDiv>
             </FooterDiv>
             <TasksDiv>
-                <p>Tasks: {tasks.length}</p>
+                {signedIn && <p>Tasks: {tasks.length}</p>}
             </TasksDiv>
         </>
     );
