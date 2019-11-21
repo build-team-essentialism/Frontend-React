@@ -28,6 +28,7 @@
 
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import swal from 'sweetalert';
 
 //import content from "../utils/initialPromptContent";
 import PillarCheckboxes from "./FormQuestions/PillarCheckboxes";
@@ -134,7 +135,12 @@ function InitialPrompt(props) {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        if (containerValidationMessage === "✔︎" && topThreeContainerValidationMessage === "✔︎") {
+        if (containerLength == 0 || topThreeContainerLength == 0) {
+            swal({title: "Hold up!", text: "Please pick 7 interests and 3 of your top interests before submitting", icon: "warning", dangerMode: true});
+        }
+        else if (textFieldOne === "" || textFieldTwo === "") {
+            swal({title: "The prompts are empty!", text: "Please fill in the prompts", icon: "warning", dangerMode: true});
+        } else if (containerValidationMessage === "✔︎" && topThreeContainerValidationMessage === "✔︎") {
 
             createFormOneForPOST();
             api()
@@ -156,11 +162,8 @@ function InitialPrompt(props) {
                     console.log('Prompt post err', err)
                 })
             props.history.push('/accounthome')
-
-        } else if (textFieldOne === "" || textFieldTwo === "") {
-            alert("Please fill in the prompts");
-        } else { 
-            alert("Please pick 7 interests and 3 of your top interests before submitting");
+        } else {
+            swal({title: "Something went wrong", icon: "warning", dangerMode: true });
         }
     }
 

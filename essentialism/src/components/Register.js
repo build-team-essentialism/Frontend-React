@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import swal from 'sweetalert';
 import api from '../utils/api';
 
 const AuthDiv = styled.div`
@@ -46,10 +47,12 @@ function Register(props) {
             .then(res => {
                 console.log('Register endpoint', res);
                 localStorage.setItem('token', res.data.token);
+                swal({ title: "Success!", text: "You're registered", icon: "success", button: "Let's Sign In" });
                 props.history.push('/login');
             })
             .catch(err => {
                 console.log('Error with register', err)
+                swal({ title: "Bummer!", text: "Registration Error", icon: "warning", dangerMode: true, button: "OK" });
             });
     };
 
