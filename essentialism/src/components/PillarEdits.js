@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../utils/api';
 
 function PillarEdits(props) {
+
     const [pillar, setPillar] = useState({
         id: '',
         pillar: ''
