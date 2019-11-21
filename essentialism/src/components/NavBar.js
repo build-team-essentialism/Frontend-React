@@ -64,14 +64,14 @@ function NavBar() {
                 <Route exact path='/login' component={Login} />
 
                 {/* ProtectedRoute(s) below in final project */}
-                <Route exact path='/initialprompt' component={InitialPrompt} />
-                <Route exact path='/tasks' component={TaskHome} />
+                <ProtectedRoute exact path='/initialprompt' component={InitialPrompt} />
+                <ProtectedRoute exact path='/tasks' component={TaskHome} />
                 <ProtectedRoute exact path='/accounthome' component={AccountHome} />
                 <ProtectedRoute exact path='/logout' component={Logout} />
 
                 {/* Update Route */}
-                <Route exact path='/promptedit/:id' component={PromptEdits} />
-                <Route exact path='/pillaredit/:id' component={PillarEdits} />
+                <ProtectedRoute exact path='/promptedit/:id' component={PromptEdits} />
+                <ProtectedRoute exact path='/pillaredit/:id' component={PillarEdits} />
             </WrapperDiv>
         </>
     );
