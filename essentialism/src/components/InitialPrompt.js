@@ -134,26 +134,34 @@ function InitialPrompt(props) {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        createFormOneForPOST();
-        api()
-            .post(`/api/pillars`, pillars)
-            .then(res => {
-                console.log('Pillar post res', res)
-            })
-            .catch(err => {
-                console.log('Pillar post err', err)
-            })
-        
-        createFormTwoForPOST();
-        api()
-            .post(`/api/prompts`, prompts)
-            .then(res => {
-                console.log('Prompt post res', res)
-            })
-            .catch(err => {
-                console.log('Prompt post err', err)
-            })
-        props.history.push('/accounthome')
+        if (containerValidationMessage === "✔︎" && topThreeContainerValidationMessage === "✔︎") {
+
+            createFormOneForPOST();
+            api()
+                .post(`/api/pillars`, pillars)
+                .then(res => {
+                    console.log('Pillar post res', res)
+                })
+                .catch(err => {
+                    console.log('Pillar post err', err)
+                })
+            
+            createFormTwoForPOST();
+            api()
+                .post(`/api/prompts`, prompts)
+                .then(res => {
+                    console.log('Prompt post res', res)
+                })
+                .catch(err => {
+                    console.log('Prompt post err', err)
+                })
+            props.history.push('/accounthome')
+
+        } else if (textFieldOne === "" || textFieldTwo === "") {
+            alert("Please fill in the prompts");
+        } else { 
+            alert("Please pick 7 interests and 3 of your top interests before submitting");
+        }
     }
 
 
