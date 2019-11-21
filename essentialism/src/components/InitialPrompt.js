@@ -212,7 +212,7 @@ function InitialPrompt(props) {
             id='submitButton'
             type='submit'
             onClick={handleSubmit}
-            >Disabled Submit</Button>
+            >Submit</Button>
         </div>
     );
 };

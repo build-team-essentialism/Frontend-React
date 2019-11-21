@@ -36,6 +36,13 @@ const PillarsP = styled.p`
     width: 50%;
     text-align: left;
 `;
+
+const PillarPTop = styled.p`
+    width: 50%;
+    text-align: left;
+    background: gold;
+`;
+
 const TaskCount = styled.div`
     position: fixed;
     bottom: 0;
@@ -131,16 +138,22 @@ function AccountHome() {
             <h1>My Pillars</h1>
             {pillars.map( pillar => (
                 <Div>
-                    <PillarsP key={pillar.id}>
-                        {pillar.pillar}
-                    </PillarsP>
+                    {(pillar.top === true) ?
+                        <PillarPTop key={pillar.id}>
+                            {pillar.pillar}
+                        </PillarPTop>
+                        :
+                        <PillarsP key={pillar.id}>
+                            {pillar.pillar}
+                        </PillarsP>
+                    }
                     <PromptEdit>
                             <Link to={`/pillaredit/${pillar.id}`}>
                                 Edit
                             </Link>
-                        </PromptEdit>
+                    </PromptEdit>
                     <DeleteX onClick={(e) => deletePillars(e, pillar)}>
-                        X
+                        🅧
                     </DeleteX>
                 </Div>
             ))}<br />
@@ -155,7 +168,7 @@ function AccountHome() {
                         </PromptEdit>
                         {prompt.prompt}
                         <PromptDeleteX onClick={(e) => deletePrompts(e, prompt)}>
-                            X
+                            🅧
                         </PromptDeleteX>
                     </Prompts>
                 </Div>
