@@ -27,7 +27,7 @@ function TextFieldQuestions(props) {
 
     // MARK: - event listeners
     function hasChangedTextFieldOne(event) {
-        if (event.target.value == "") {
+        if (event.target.value === "") {
             setTextFieldOne("");
             setTextFieldOneValidationMessage("It's important for you to write in your why's into the textfield");
         } else {
@@ -38,7 +38,7 @@ function TextFieldQuestions(props) {
     }
 
     function hasChangedTextFieldTwo(event) {
-        if (event.target.value == "") {
+        if (event.target.value === "") {
             setTextFieldTwo("");
             setTextFieldTwoValidationMessage("Please place all the projects that you are working on in the textfield below" )
         } else {
