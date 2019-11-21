@@ -13,6 +13,7 @@ import Register from './Register';
 import InitialPrompt from './InitialPrompt';
 import TaskHome from './Tasks/TaskHome';
 import PromptEdits from '../components/PromptEdits';
+import PillarEdits from '../components/PillarEdits';
 
 // Styling
 import styled from 'styled-components';
@@ -52,7 +53,7 @@ function NavBar() {
                         {!signedIn && <Link to='/register'>Register</Link>}
                         {!signedIn && <Link to='/login'>Login</Link>}
                         {signedIn && <Link to='/accounthome'>My Account</Link>}
-                        {signedIn && <Link to='/initialprompt'>Prompt</Link>}
+                        {/* {signedIn && <Link to='/initialprompt'>Prompt</Link>} */}
                         {signedIn && <Link to='/tasks'>Tasks</Link>}
                         {signedIn && <Link to='/logout'>Logout</Link>}
                     </div>
@@ -70,6 +71,7 @@ function NavBar() {
 
                 {/* Update Route */}
                 <Route exact path='/promptedit/:id' component={PromptEdits} />
+                <Route exact path='/pillaredit/:id' component={PillarEdits} />
             </WrapperDiv>
         </>
     );

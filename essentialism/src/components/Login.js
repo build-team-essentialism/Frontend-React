@@ -54,7 +54,7 @@ function Login(props) {
                 console.log(res)
                 localStorage.setItem('token', res.data.token)
                 localStorage.setItem('id', res.data.userId)
-                props.history.push('/initialprompt')
+                props.history.push('/accounthome')
             })
             .catch(err => {
                 console.log(err)
