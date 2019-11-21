@@ -3,6 +3,7 @@ import api from '../utils/api';
 import InitialPrompt from './InitialPrompt';
 
 function PillarEdits(props) {
+
     const [pillar, setPillar] = useState({
         id: '',
         pillar: ''
