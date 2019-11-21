@@ -12,6 +12,7 @@ import ProtectedRoute from './ProtectedRoute';
 import Register from './Register';
 import InitialPrompt from './InitialPrompt';
 import TaskHome from './Tasks/TaskHome';
+import PromptEdits from '../components/PromptEdits';
 
 // Styling
 import styled from 'styled-components';
@@ -66,6 +67,9 @@ function NavBar() {
                 <Route exact path='/tasks' component={TaskHome} />
                 <ProtectedRoute exact path='/accounthome' component={AccountHome} />
                 <ProtectedRoute exact path='/logout' component={Logout} />
+
+                {/* Update Route */}
+                <Route exact path='/promptedit/:id' component={PromptEdits} />
             </WrapperDiv>
         </>
     );

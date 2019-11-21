@@ -30,7 +30,7 @@ function PillarEdits(props) {
         api()
             .put(`/api/pillars/${props.match.params.id}`, pillar)
             .then(res => {
-                props.history.push('')
+                props.history.push('/accounthome')
             })
             .catch(err => {
                 console.log('Error with edit put req', err)

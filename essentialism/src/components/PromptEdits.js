@@ -20,7 +20,7 @@ function PromptEdits(props) {
 
     const handleChange = (event) => {
         setPrompt({
-            ...pillar,
+            ...prompt,
             [event.target.name]: event.target.value
         });
     };
@@ -30,7 +30,7 @@ function PromptEdits(props) {
         api()
             .put(`/api/prompts/${props.match.params.id}`, prompt)
             .then(res => {
-                props.history.push('')
+                props.history.push('/accounthome')
             })
             .catch(err => {
                 console.log('Error with edit put req', err)
@@ -42,8 +42,10 @@ function PromptEdits(props) {
             <h1>Update Prompt</h1>
             <form onSubmit={handleSubmit}>
                 <input
-                    type='text'
+                    type='textarea'
                     name='prompt'
+                    value={prompt.prompt}
+                    onChange={handleChange}
                 /><br />
                 <button type='submit'>Save</button>
             </form>
