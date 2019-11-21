@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import api from '../utils/api';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { TaskContext } from '../context/TaskContext';
 
 const Prompts = styled.p`
     padding: 2%;
@@ -35,9 +36,21 @@ const PillarsP = styled.p`
     width: 50%;
     text-align: left;
 `;
+const TaskCount = styled.div`
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 15%;
+    padding: 1% 1% 0% 1%;
+    margin: 0% 0% 1% 1%;
+    border: 2px solid black;
+    border-radius: 5px;
+    background: khaki;
+    color: black;
+`;
 
 function AccountHome() {
-  
+    const [tasks, setTasks] = useContext(TaskContext);
     const [pillars, setPillars] = useState([]);
     const [prompts, setPrompts] = useState([]);
 
@@ -108,12 +121,24 @@ function AccountHome() {
 
     return (
         <div>
+            <h1>Welcome to your home page.</h1>
+            <p>If this is your first time here, use the Add button below to begin building out your pillars and prompts!</p>
+            <p>
+                <Link to='/initialprompt'>
+                    Add
+                </Link>
+            </p>
             <h1>My Pillars</h1>
             {pillars.map( pillar => (
                 <Div>
                     <PillarsP key={pillar.id}>
                         {pillar.pillar}
                     </PillarsP>
+                    <PromptEdit>
+                            <Link to={`/pillaredit/${pillar.id}`}>
+                                Edit
+                            </Link>
+                        </PromptEdit>
                     <DeleteX onClick={(e) => deletePillars(e, pillar)}>
                         X
                     </DeleteX>
@@ -135,6 +160,11 @@ function AccountHome() {
                     </Prompts>
                 </Div>
             ))}
+            <TaskCount>
+                <Link to='/tasks'>
+                    <p>Tasks: {tasks.length}</p>
+                </Link>
+            </TaskCount>
         </div>
     );
 };
