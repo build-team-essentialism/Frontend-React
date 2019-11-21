@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import api from '../utils/api';
 import styled from 'styled-components';
+import swal from 'sweetalert';
 
 const LoginDiv = styled.div`
     padding: 5% 0% 10% 0%;
@@ -54,9 +55,11 @@ function Login(props) {
                 console.log(res)
                 localStorage.setItem('token', res.data.token)
                 localStorage.setItem('id', res.data.userId)
+                swal({title: "🙌", text: "Success", icon: "success"});
                 props.history.push('/accounthome')
             })
             .catch(err => {
+                swal({title: "Error!", text: "We couldn't log you in. Please check that your username and password are correct.", icon: "warning", dangerMode: true});
                 console.log(err)
             });
     };
