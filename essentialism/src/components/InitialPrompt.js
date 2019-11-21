@@ -52,6 +52,18 @@ const Pillar = styled.div`
     align-items: baseline;
 `;
 
+const DisabledButton = styled.button`
+    background: lightgrey;
+    border: 2px solid grey;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-bottom: 2rem;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+
+`;
+
 const Button = styled.button`
     background: lightgrey;
     border: 2px solid black;
@@ -90,16 +102,18 @@ function InitialPrompt(props) {
     const [containerValidationMessage, setContainerValidationMessage] = useState("");
     const [topThreeContainerValidationMessage, setTopThreeContainerValidationMessage] = useState("");
 
+    // MARK: - useEffects
     useEffect(() => {
         if(containerLength === maxLengthFirstPicks) {
             console.log("Hit 7");
             setContainerValidationMessage("✔︎");
             // check to what not picked and then disable
-            checkToDisableOrEnableCheckboxesFirst();
+            //cssIdentifier, repo, repoLength, maxRepoLength
+            checkToDisableOrEnableFor('.checkbox-1', container, containerLength, maxLengthFirstPicks);
         }
         if(containerValidationMessage === "✔︎" && containerLength < maxLengthFirstPicks) {
             setContainerValidationMessage("To continue, you must pick 7 interests");
-            checkToDisableOrEnableCheckboxesFirst();
+            checkToDisableOrEnableFor('.checkbox-1', container, containerLength, maxLengthFirstPicks);
         }
     }, [containerLength]);
 
@@ -108,22 +122,23 @@ function InitialPrompt(props) {
         if(topThreeContainerLength === maxLengthSecondPicks) {
             console.log("Hit 3")
             setTopThreeContainerValidationMessage("✔︎")
-            checkToDisableOrEnableCheckboxesSecond();
+            checkToDisableOrEnableFor('.checkbox-2', topThreeContainer, topThreeContainerLength, maxLengthSecondPicks);
         }
 
         if(topThreeContainerValidationMessage === "✔︎" && topThreeContainerLength < maxLengthSecondPicks) {
             setTopThreeContainerValidationMessage("To contine, you must pick your top 3");
-            checkToDisableOrEnableCheckboxesSecond();
+            checkToDisableOrEnableFor('.checkbox-2', topThreeContainer, topThreeContainerLength, maxLengthSecondPicks);
         }
     }, [topThreeContainerLength]);
+
 
     // MARK: - Event Listeners
     // toggle for checkboxes
     const toggle = (event) => {
         if(event.target.checked === true && !container.includes(event.target.value)) {
-            containerAdd(event)
+            add(event, container, setContainer, containerLength, setContainerLength);
         } else if(event.target.checked === false && container.includes(event.target.value)) {
-            containerRemove(event)
+            remove(event, container, setContainer, containerLength, setContainerLength);
         } else {
             console.log("You should never get to this statement! You did something wrong");
         }
@@ -131,92 +146,62 @@ function InitialPrompt(props) {
 
     const topThreeToggle = (event) => {
         if(event.target.checked === true && !topThreeContainer.includes(event.target.value)) {
-            topThreeContainerAdd(event)
+            add(event, topThreeContainer, setTopThreeContainer, topThreeContainerLength, setTopThreeContainerLength);
         } else if(event.target.checked === false && topThreeContainer.includes(event.target.value)) {
-            topThreeContainerRemove(event)
+            remove(event, topThreeContainer, setTopThreeContainer, topThreeContainerLength, setTopThreeContainerLength);
         } else {
             console.log("You should never get to this statement! You did something wrong");
         }
+    };
+
+    // MARK: - ABSTRACTED Adding and Removing from containers (called repos)
+    function add(event, repo, setRepo, repoLength, setRepoLength) {
+        repo.push(event.target.value);
+        setRepoLength(repoLength + 1);
+        setRepo(repo)
     }
 
-
-    // MARK: - Container Helper functions
-    function containerAdd(event) {
-        container.push(event.target.value);
-        setContainerLength(containerLength + 1);
-        setContainer(container);
-    }
-
-    function containerRemove(event) {
-        container.map( (interest, index) => {
-            if(interest === event.target.value) {
-                container.splice(index, 1);
-                setContainerLength(containerLength - 1);
-                return setContainer(container);
+    function remove(event, repo, setRepo, repoLength, setRepoLength) {
+        repo.map( (pillar, index) => {
+            if(pillar === event.target.value) {
+                repo.splice(index, 1);
+                setRepoLength(repoLength - 1);
+                return setRepo(repo);
             }
-        }) // end of map function
+        })
     }
 
-    // MARK: - Top Three Container Helper functions
-    function topThreeContainerAdd(event) {
-        topThreeContainer.push(event.target.value);
-        setTopThreeContainerLength(topThreeContainerLength + 1);
-        setTopThreeContainer(topThreeContainer);
-    }
-
-    function topThreeContainerRemove(event) {
-        topThreeContainer.map( (interest, index) => {
-            if(interest === event.target.value) {
-                topThreeContainer.splice(index, 1);
-                setTopThreeContainerLength(topThreeContainerLength - 1);
-                return setTopThreeContainer(topThreeContainer);
-            }
-        }) // end of map function
-    }
-
-    // MARK: - Button Validations
-    function validateFormOne(event) {
-        event.preventDefault();
+    // MARK: - Object Creation for POST
+    function createFormOneForPOST() {
         container.map( (value) => {
             let object = {}
             object["user_id"]=localStorage.getItem('id');
             object["pillar"]=value
-            object["top"]=false;
+            if(isTop(value)) {
+                object["top"] = true
+            } else {
+                object["top"] = false
+            }
             pillars.push(object)
         });
-
     };
 
-    function validateFormTwo(event) {
-        event.preventDefault();
-        console.log("T1 in prompt", textFieldOne);
-        console.log("T2 in prompt", textFieldTwo);
-        if(textFieldOne === "" || textFieldTwo === "") {
-            console.log("NOPE!")
-        } else {
-            console.log("validating form one");
-            validateFormOne(event);
-        }
+    function createFormTwoForPOST() {
+        let object = {}
+        object["prompt"] = textFieldOne;
+        object["user_id"]=localStorage.getItem('id');
+        prompts.push(object);
+        let object2 = {}
+        object2["prompt"] = textFieldTwo;
+        object2["user_id"]=localStorage.getItem('id');
+        prompts.push(object2);  
     }
-
-// const [pillar, setPillar] = useState({
-//         user_id: localStorage.getItem('id')
-//         pillar: '',
-//         top: false
-//     });
-
-//     const handleChanges = (event) => {
-//         event.preventDefault();
-//         setPillar({
-//             ...pillar,
-//             [event.target.name]: event.target.value
-//         });
-//     };
 
     // MARK: - Axios Call
     const handleSubmit = (event) => {
         event.preventDefault();
-        validateFormOne(event);
+
+        createFormOneForPOST();
         api()
             .post(`/api/pillars`, pillars)
             .then(res => {
@@ -226,16 +211,7 @@ function InitialPrompt(props) {
                 console.log('Pillar post err', err)
             })
         
-        let object = {}
-        object["prompt"] = textFieldOne;
-        object["user_id"]=localStorage.getItem('id');
-        prompts.push(object);
-
-        let object2 = {}
-        object2["prompt"] = textFieldTwo;
-        object2["user_id"]=localStorage.getItem('id');
-        prompts.push(object2);
-
+        createFormTwoForPOST();
         api()
             .post(`/api/prompts`, prompts)
             .then(res => {
@@ -247,34 +223,49 @@ function InitialPrompt(props) {
         props.history.push('/accounthome')
     }
 
-    function getCheckboxesForOne() {
-        const allInputsNodeList = document.querySelectorAll('.checkbox-1');
+    // MARK: - Checkbox selector
+    function getCheckboxesFor(cssIdentifier) {
+        const allInputsNodeList = document.querySelectorAll(cssIdentifier);
         const checkboxes = Array.from(allInputsNodeList);        
         return checkboxes;
     }
 
-    function getCheckboxesForTwo() {
-        const allInputsNodeList = document.querySelectorAll('.checkbox-2');
-        const checkboxes = Array.from(allInputsNodeList);
-        return checkboxes;
-    }
-
-    function checkToDisableOrEnableCheckboxesFirst() {
-        const notCheckedArray = getCheckboxesForOne().filter( (object) => !container.includes(object.name))
-        if (containerLength === 7) {
+    // MARK: - Checkbox check
+    function checkToDisableOrEnableFor(cssIdentifier, repo, repoLength, maxRepoLength) {
+        const notCheckedArray = getCheckboxesFor(cssIdentifier).filter( (object) => !repo.includes(object.name))
+        console.log(notCheckedArray);
+        if (repoLength === maxRepoLength) {
             return notCheckedArray.forEach( (object) => object.disabled = true);
         } else {
             return notCheckedArray.forEach( (object) => object.disabled = false);
         }
     }
 
-    function checkToDisableOrEnableCheckboxesSecond() {
-        const notCheckedArray = getCheckboxesForTwo().filter( (object) => !topThreeContainer.includes(object.name))
-        if (topThreeContainerLength === 3) {
-            return notCheckedArray.forEach( (object) => object.disabled = true);
-        } else {
-            return notCheckedArray.forEach( (object) => object.disabled = false);
+    // MARK: - Check if to see if checked in top three
+    function isTop(value) {
+        for(let i = 0; i < topThreeContainer.length; i++) {
+            if(value === topThreeContainer[i]) {
+                return true
+            }
         }
+        return false;
+    }
+
+    // MARK: - MOCK sending data
+    const mockSend = (event) => {
+        event.preventDefault();
+        container.map( (value) => {
+            let object = {}
+            object["user_id"]=localStorage.getItem('id');
+            object["pillar"]=value
+            if(isTop(value)) {
+                object["top"] = true
+            } else {
+                object["top"] = false
+            }
+            pillars.push(object)
+        });
+        console.log(pillars);
     }
     
     // MARK: - Render HTML
@@ -325,10 +316,11 @@ function InitialPrompt(props) {
                 setTextFieldOne={setTextFieldOne} 
                 textFieldTwo={textFieldTwo} 
                 setTextFieldTwo={setTextFieldTwo}/>
-            <Button
+            <DisabledButton
+            id='submitButton'
             type='submit'
             onClick={handleSubmit}
-            >Submit</Button>
+            >Disabled Submit</DisabledButton>
         </div>
     );
 };
