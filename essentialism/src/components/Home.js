@@ -10,25 +10,12 @@ const Div = styled.div`
 const P = styled.p`
     text-align: center;
 `;
-const Span = styled.span`
-    margin-left: 5%;
-`;
 const H1 = styled.h1`
     text-align: center;
 `;
 const ThemeDiv = styled.div`
     display: flex;
     justify-content: space-around;
-`;
-const Primary = styled.p`
-    padding: 2%;
-    border-radius: 5px;
-    background-color: indianred;
-`;
-const Secondary = styled.p`
-    padding: 2%;
-    border-radius: 5px;
-    background-color: khaki;
 `;
 
 function Home() {

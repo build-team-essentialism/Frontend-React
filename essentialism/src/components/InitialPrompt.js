@@ -32,39 +32,8 @@ import swal from 'sweetalert';
 
 //import content from "../utils/initialPromptContent";
 import PillarCheckboxes from "./FormQuestions/PillarCheckboxes";
-import ValidationMessage from "./FormValidation/ValidationMessage";
-import CountMessage from "./FormValidation/CountMessage";
 import TextFieldQuestions from "./FormQuestions/TextFieldQuestions";
 import api from '../utils/api';
-
-
-const PromptDiv = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    border-bottom: 1px solid gray;
-`;
-
-const Pillar = styled.div`
-    margin-left: 2rem;
-    padding: 2%;
-    width: 45%;
-    display: flex;
-    justify-content: start;
-    align-items: baseline;
-`;
-
-const DisabledButton = styled.button`
-    background: lightgrey;
-    border: 2px solid grey;
-    border-radius: 5px;
-    padding: 10px 20px;
-    margin-bottom: 2rem;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-
-`;
 
 const Button = styled.button`
     background: lightgrey;

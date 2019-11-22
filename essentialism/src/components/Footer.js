@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { useDarkMode } from '../hooks/useDarkMode';
-// import { TaskContext } from '../context/TaskContext';
 import { getToken } from '../utils/api';
 
 const FooterDiv = styled.footer`
@@ -22,14 +21,6 @@ const DarkToggleDiv = styled.div`
     position: relative;
     width: 38px;
     margin: 0 auto;
-`;
-const TasksDiv = styled.footer`
-    background-color: indianred;
-    border: 2px solid black;
-    border-radius: 5px;
-    position: fixed;
-    bottom: 0;
-    width: 8%;
 `;
 
 function Footer() {
@@ -52,9 +43,6 @@ function Footer() {
                     />
                 </DarkToggleDiv>
             </FooterDiv>
-            {/* <TasksDiv>
-                {signedIn && <p>Tasks: {tasks.length}</p>}
-            </TasksDiv> */}
         </>
     );
 };
