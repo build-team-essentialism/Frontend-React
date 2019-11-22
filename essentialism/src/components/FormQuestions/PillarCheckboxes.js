@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import content from "../../utils/initialPromptContent";
 import CountMessage from "../FormValidation/CountMessage";
 import ValidationMessage from "../FormValidation/ValidationMessage";
-import api from "../../utils/api";
 
 const PromptDiv = styled.div`
     display: flex;

@@ -38,9 +38,4 @@
 .dark-mode {
   color: #fff;
   background-color: #313843;
-
-  .navbar {
-    background-color: #1F2022;
-    border: none;
-  }
 }
