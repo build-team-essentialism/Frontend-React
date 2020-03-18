@@ -1,14 +1,14 @@
 // REACT
-import React from 'react';
+import React from "react";
 
 // COMPONENTS
-import NavBar from './components/NavBar';
-import Footer from './components/Footer';
-import { TaskProvider } from './context/TaskContext';
+import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
+import { TaskProvider } from "./context/TaskContext";
 
 // STYLING
-import styled from 'styled-components';
-import './App.css';
+import styled from "styled-components";
+import "./App.css";
 
 const AppDiv = styled.div`
   text-align: center;
@@ -23,6 +23,6 @@ function App() {
       </TaskProvider>
     </AppDiv>
   );
-};
+}
 
 export default App;
